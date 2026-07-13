@@ -1,0 +1,9 @@
+pipeline {
+    agent { label 'electronix'}
+
+    satges {
+        stage("tools Configure") {
+            step { echo "Tools from Electronix" }
+        }
+    }
+}
