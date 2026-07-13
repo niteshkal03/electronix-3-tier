@@ -6,4 +6,14 @@ pipeline {
             steps { echo "Tools Installation Pipepline" }
         }
     }
+
+    stages {
+        stage ("List Update"){
+            steps {
+                sh '''
+                sudo apt-get update -y
+                '''
+            }
+        }
+    }
 }
