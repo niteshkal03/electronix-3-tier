@@ -5,9 +5,6 @@ pipeline {
         stage("Tools Configure"){
             steps { echo "Tools Installation Pipepline" }
         }
-    }
-
-    stages {
         stage ("List Update"){
             steps {
                 sh '''
@@ -16,4 +13,5 @@ pipeline {
             }
         }
     }
+
 }
