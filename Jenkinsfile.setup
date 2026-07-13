@@ -1,7 +1,7 @@
 pipeline {
     agent { label 'electronix'}
 
-    satges {
+    stages {
         stage("Tools Configure"){
             steps { echo "Tools Installation Pipepline" }
         }
