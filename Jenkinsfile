@@ -6,16 +6,19 @@ pipeline{
         AWS_REGION='us-east-1'
     }
 
-    stages{
-        stage("Front-End Deployment"){
-            when {
+     stages{
+        stage("Frontend Deployment"){
+            when{
                 changeset "frontend/**"
             }
+
             stages{
                 stage('Install Dependencies'){
                     steps{
                         dir('frontend'){
-                            sh 'npm install'
+                            sh '''
+                            npm install
+                            '''
                         }
                     }
                 }
@@ -38,7 +41,7 @@ pipeline{
 
                 stage('Deploy S3'){
                     steps{
-                        dir('forntend'){
+                        dir('frontend'){
                             sh '''
                             aws s3 sync dist/ s3://${S3_BUCKET} --delete --region ${AWS_REGION}
                             '''
@@ -46,27 +49,25 @@ pipeline{
                     }
                 }
 
+                
                 stage('Invalidation Cloudfront Cache'){
                     steps{
-                       
                         sh '''
                         aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_ID} --paths "/*"
-                        '''                   
+                        '''
                     }
                 }
-
-
             }
         }
     }
+
     post{
         success{
-            echo 'Frontend Doployment Successfull'
-
-        }
-        failure{
-            echo 'Frontend Deployment Failed'
+            echo 'Frontent Deployment Successfull ✅'
         }
 
+        failure {
+           echo 'Frontent Deployment Failed ❌'
+        }
     }
 }
