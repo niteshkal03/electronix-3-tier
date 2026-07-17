@@ -6,7 +6,7 @@ pipeline{
         AWS_REGION='us-east-1'
     }
 
-     stages{
+    stages{
         stage("Frontend Deployment"){
             when{
                 changeset "frontend/**"
