@@ -6,11 +6,11 @@ pipeline{
         PRODUCTION_IP='100.60.181.5'
     }
 
-    stage('Backend Pipeline'){
-    //     // when {
-    //     //     changeset "backend/**"
-    //     // }
-    // }
+    // stages('Backend Pipeline'){
+        //     // when {
+        //     //     changeset "backend/**"
+        //     // }
+        // }
 
         stages{
 
@@ -41,7 +41,7 @@ pipeline{
                 }
             }
         }
-    }
+    // }
 
     post {
         success{
