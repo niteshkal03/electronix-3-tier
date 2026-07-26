@@ -17,7 +17,7 @@ pipeline{
         stage('Build Docker Image'){
             steps{
                 dir("backend"){
-                    sh 'docker build -t electronix-backend:${BUILD_NUMBER}'
+                    sh 'sudo docker build -t electronix-backend:${BUILD_NUMBER}'
                 }
             }
         }
@@ -32,10 +32,10 @@ pipeline{
         stage("Tag & Push to ECR"){
             steps{
                 sh '''
-                docker tag electronix-backend:${BUILD_NUMBER} ${ECR_REPO}:${BUILD_NUMBER}
-                docker tag electronix-backend:${ECR_REPO}:latest
-                docker push ${ECR_REPO}:${BUILD_NUMBER}
-                docker push ${ECR_REPO}:latest
+                sudo docker tag electronix-backend:${BUILD_NUMBER} ${ECR_REPO}:${BUILD_NUMBER}
+                sudo docker tag electronix-backend:${ECR_REPO}:latest
+                sudo docker push ${ECR_REPO}:${BUILD_NUMBER}
+                sudo docker push ${ECR_REPO}:latest
                 echo "Pushed Success"
                 '''
             }
