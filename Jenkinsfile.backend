@@ -40,6 +40,14 @@ pipeline{
                     '''
                 }
             }
+            stage("Deploy to Production"){
+                steps{
+                    sshagent(['prod-server-ssh-key'])
+                    sh '''
+                    ssh -o StrictHostKeyChecking=no ubuntu@${PRODUCTION_IP} "echo Connection Success"
+                    '''
+                }
+            }
         }
     // }
 
