@@ -7,7 +7,7 @@ pipeline{
     }
 
     stages{
-        // stage("Frontend Deployment"){
+        stage("Frontend Deployment"){
             // when{
             //     changeset "frontend/**"
             // }
@@ -56,7 +56,7 @@ pipeline{
                     }
                 }
             }
-        // }
+        }
     }
 
     post{
