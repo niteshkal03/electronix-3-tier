@@ -6,21 +6,16 @@ pipeline{
         PRODUCTION_IP='100.60.181.5'
     }
 
-    // stages('Backend Pipeline'){
-        //     // when {
-        //     //     changeset "backend/**"
-        //     // }
-        // }
-
-        stages{
+    stages{
 
             stage('Build Docker Image'){
                 steps{
                     dir("backend"){
-                        sh 'sudo docker build -t electronix-backend:${BUILD_NUMBER}'
+                        sh 'sudo docker build -t electronix-backend:${BUILD_NUMBER} .'
                     }
                 }
             }
+
             stage("Test ECR Login"){
                 steps {
                     sh '''
@@ -29,47 +24,51 @@ pipeline{
                 }
             }
 
-            stage("Tag & Push to ECR"){
+            stage ("Tag & Push to ECR"){
                 steps{
                     sh '''
                     sudo docker tag electronix-backend:${BUILD_NUMBER} ${ECR_REPO}:${BUILD_NUMBER}
-                    sudo docker tag electronix-backend:${ECR_REPO}:latest
+                    sudo docker tag electronix-backend:${BUILD_NUMBER} ${ECR_REPO}:latest
                     sudo docker push ${ECR_REPO}:${BUILD_NUMBER}
                     sudo docker push ${ECR_REPO}:latest
-                    echo "Pushed Success"
+
+                    echo "Pushed Success ✅"
                     '''
                 }
             }
-            stage("Deploy to Production"){
+
+              stage ("Deploy To Production"){
                 steps{
-                    sshagent(['prod-server-ssh-key'])
+                    sshagent(['prod-server-ssh-key']){
                     sh '''
                     ssh -o StrictHostKeyChecking=no ubuntu@${PRODUCTION_IP} "
-                    aws ecr get-login-password --region ${AWS_REGION} | sudo docker login --username AWS --password-stdin ${ECR_REPO}
-                    sudo docker pull &{ECR_REPO}:latest &&
-                    sudo docker stop electronics-backend || true &&
-                    sudo docker rm electronics-backend || true &&
-                    sudo docker run -d -- name electronics-backend --env-file /home/ubuntu/.env -p 5000:5000 ${ECR_REPO}:latest
+                    aws ecr get-login-password --region ${AWS_REGION} | sudo docker login --username AWS --password-stdin ${ECR_REPO} &&
+                    sudo docker pull ${ECR_REPO}:latest &&
+                    sudo docker stop electronix-backend || true &&
+                    sudo docker rm electronix-backend || true &&
+                    sudo docker run -d --name electronix-backend --env-file /home/ubuntu/.env -p 5000:5000 ${ECR_REPO}:latest
                     "
                     '''
+                    }
+                    
                 }
             }
+
             stage ("Health Check"){
-                    steps{
-                        sh 'sleep 10 && curl -f http://${PRODUCTION_IP}:5000/api/health || exit 1'
-                    }
+                steps{
+                    sh 'sleep 10 && curl -f http://${PRODUCTION_IP}:5000/api/health || exit 1'
+                }
             }
-        }
-    // }
+}
 
-    post {
-        success{
-            echo "ECR Login Success"
-        }
 
-        failure{
-            echo "ECR Login Failed"
-        }
-
+  post {
+    success{
+        echo "ECR login success ✅"
     }
+
+    failure {
+        echo "ECR login Failed ❌"
+    }
+  }
 }
