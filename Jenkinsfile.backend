@@ -6,7 +6,7 @@ pipeline{
         PRODUCTION_IP='100.60.181.5'
     }
 
-    stages{
+        stages{
 
             stage('Build Docker Image'){
                 steps{
@@ -59,16 +59,17 @@ pipeline{
                     sh 'sleep 10 && curl -f http://${PRODUCTION_IP}:5000/api/health || exit 1'
                 }
             }
-}
+        }
 
 
-  post {
-    success{
+    post {
+      success{
         echo "ECR login success ✅"
+      }
+
+      failure {
+        echo "ECR login Failed ❌"
+      }
     }
 
-    failure {
-        echo "ECR login Failed ❌"
-    }
-  }
 }
