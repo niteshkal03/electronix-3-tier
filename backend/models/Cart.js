@@ -1,7 +1,7 @@
 // models/Cart.js
-// import { DataTypes, Model } from 'sequelize';
-import pkg from 'sequelize';
-const { DataTypes, Model } = pkg;
+import { DataTypes, Model } from 'sequelize';
+// import pkg from 'sequelize';
+// const { DataTypes, Model } = pkg;
 import getSequelize from '../config/database.js';
 
 const sequelize = getSequelize();

@@ -1,10 +1,10 @@
 // models/Product.js
-// import { DataTypes, Model } from 'sequelize';
-import pkg from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
+// import pkg from 'sequelize';
 import slugify from 'slugify';
 import getSequelize from '../config/database.js';
 
-const { DataTypes, Model } = pkg;
+// const { DataTypes, Model } = pkg;
 
 const sequelize = getSequelize();
 
