@@ -44,9 +44,20 @@ pipeline{
                 steps{
                     sshagent(['prod-server-ssh-key'])
                     sh '''
-                    ssh -o StrictHostKeyChecking=no ubuntu@${PRODUCTION_IP} "echo Connection Success"
+                    ssh -o StrictHostKeyChecking=no ubuntu@${PRODUCTION_IP} "
+                    aws ecr get-login-password --region ${AWS_REGION} | sudo docker login --username AWS --password-stdin ${ECR_REPO}
+                    sudo docker pull &{ECR_REPO}:latest &&
+                    sudo docker stop electronics-backend || true &&
+                    sudo docker rm electronics-backend || true &&
+                    sudo docker run -d -- name electronics-backend --env-file /home/ubuntu/.env -p 5000:5000 ${ECR_REPO}:latest
+                    "
                     '''
                 }
+            }
+            stage ("Health Check"){
+                    steps{
+                        sh 'sleep 10 && curl -f http://${PRODUCTION_IP}:5000/api/health || exit 1'
+                    }
             }
         }
     // }

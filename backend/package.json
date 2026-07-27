@@ -16,6 +16,7 @@
     "bcryptjs": "^3.0.3",
     "cloudinary": "^2.10.0",
     "connect-mongo": "^6.0.0",
+    "connect-session-sequelize": "^6.1.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
@@ -28,7 +29,7 @@
     "multer": "^2.2.0",
     "mysql2": "^3.22.5",
     "razorpay": "^2.9.6",
-    "sequelize": "^6.37.8",
+    "sequelize": "^3.30.0",
     "slugify": "^1.6.9",
     "validator": "^13.15.35"
   },
