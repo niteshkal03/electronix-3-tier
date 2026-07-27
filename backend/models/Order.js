@@ -1,5 +1,6 @@
 // models/Order.js
 import { DataTypes, Model } from 'sequelize';
+import pkg from 'sequelize';
 import getSequelize from '../config/database.js';
 
 const sequelize = getSequelize();

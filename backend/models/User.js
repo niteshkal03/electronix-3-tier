@@ -1,8 +1,10 @@
 // models/User.js
-import { DataTypes, Model } from 'sequelize';
+// import { DataTypes, Model } from 'sequelize';
+import pkg from 'sequelize';
 import bcrypt from 'bcryptjs';
 import getSequelize from '../config/database.js';
 
+const { DataTypes, Model } = pkg;
 const sequelize = getSequelize();
 
 class User extends Model {

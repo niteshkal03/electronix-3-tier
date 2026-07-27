@@ -1,6 +1,9 @@
 // models/OrderItem.js
-import { DataTypes, Model } from 'sequelize';
+// import { DataTypes, Model } from 'sequelize';
+import pkg from 'sequelize';
+const { DataTypes, Model } = pkg;
 import getSequelize from '../config/database.js';
+const { DataTypes, Model } = pkg;
 
 const sequelize = getSequelize();
 
