@@ -3,7 +3,7 @@
 import pkg from 'sequelize';
 const { DataTypes, Model } = pkg;
 import getSequelize from '../config/database.js';
-const { DataTypes, Model } = pkg;
+// const { DataTypes, Model } = pkg;
 
 const sequelize = getSequelize();
 
