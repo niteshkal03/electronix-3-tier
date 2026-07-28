@@ -16,7 +16,7 @@ def test_database():
     )
 
     connection.close()
-    print("[PASS] ✅ Database Connectivity Check")
+    print("[PASS] ✅ Database Connectivity Check.")
 
 if __name__=="__main__":
     try:
